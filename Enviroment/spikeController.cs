@@ -14,7 +14,7 @@ public class spikeController : MonoBehaviour {
 		if(col.CompareTag("Player") )
 		{
 			player.GetComponent<BoxCollider2D> ().isTrigger = false;
-			player.damage (5);
+			player.GetComponent<Animator>().SetBool("dead",true);
 			gameObject.GetComponent<Collider2D> ().isTrigger = false;
 
 	

@@ -40,12 +40,10 @@ public class enemyArcherController : MonoBehaviour {
 
 		
 		rangeCheck ();
+		if (anim.GetBool ("awake")) 
+		Flip();
 
-		if (transform.position.x > target.transform.position.x && (facingRight)) {
-			Flip ();
-		} else if (transform.position.x < target.transform.position.x && (!facingRight)){
-			Flip ();
-		}
+
 			
 	}
 
@@ -57,13 +55,18 @@ public class enemyArcherController : MonoBehaviour {
 
 
 	void Flip(){
-		facingRight = !facingRight;
-		//anim.SetBool("facing",facingRight);
+		if((transform.position.x > target.transform.position.x && (facingRight)) || (transform.position.x < target.transform.position.x && (!facingRight)))
+		{
+				facingRight = !facingRight;
+				//anim.SetBool("facing",facingRight);
 
-		Vector3 theScale = transform.localScale;
+				Vector3 theScale = transform.localScale;
 
-		theScale.x *= -1;
-		transform.localScale = theScale;
+				theScale.x *= -1;
+			transform.localScale = theScale;
+		}
+
+	
 	}
 
 

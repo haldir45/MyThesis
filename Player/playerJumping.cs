@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class jumping : MonoBehaviour
+public class playerJumping : MonoBehaviour
 {
 
 
@@ -36,13 +36,18 @@ public class jumping : MonoBehaviour
 		anim.SetBool("grounded",grounded);
 
 		checkGrounded ();
+	
+	}
+
+	void FixedUpdate()
+	{
 		jump ();
 	}
 
 	void jump()
 	{
 
-		if(Input.GetButtonDown("Jump"))
+		if(Input.GetButtonDown("Jump") && ( (!anim.GetCurrentAnimatorStateInfo(0).IsTag("attack")) & (!anim.GetCurrentAnimatorStateInfo(0).IsName("hurt")) ) )
 		{
 			anim.SetBool ("jumping", true);
 

@@ -7,8 +7,7 @@ public class Arrow : MonoBehaviour {
 	{
 		if(col.CompareTag("Player") )
 		{
-			
-				col.GetComponent<playerController>().damage(1);
+			col.GetComponent<playerController>().damage(1);
 
 				Destroy(gameObject);
 		}

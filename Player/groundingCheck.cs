@@ -4,12 +4,12 @@ using System.Collections;
 public class groundingCheck : MonoBehaviour {
 
 	private playerController player;
-	private jumping jumpingObj;
+	private playerJumping jumpingObj;
 	// Use this for initialization
 	void Start () {
 	
 		player = gameObject.GetComponentInParent<playerController> ();
-		jumpingObj =  gameObject.GetComponentInParent<jumping> ();
+		jumpingObj =  gameObject.GetComponentInParent<playerJumping> ();
 	}
 
 

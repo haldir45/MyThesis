@@ -78,19 +78,37 @@ public class playerController : MonoBehaviour {
 	     	{
 			   dead = true;
 			   anim.SetBool ("dead", dead);
-		
-
-		     }
+            }
 
 		}
 		//physics only in FixedUpdate
 		void FixedUpdate()
      	{
 
-		easeMoving ();
-
 		moveHorizontal = Input.GetAxis("Horizontal");
 
+		if ((this.anim.GetCurrentAnimatorStateInfo (0).IsTag ("attack")) || (this.anim.GetCurrentAnimatorStateInfo (0).IsTag ("dead")) || (this.anim.GetCurrentAnimatorStateInfo (0).IsName("hurt")))
+			rb.velocity = new Vector2(0.0f,rb.velocity.y);
+		else {
+			rb.velocity = new Vector2 (moveHorizontal * speed, rb.velocity.y);
+		}
+			
+		//}
+	
+		//Update the moveHorizontal parameter in the animator
+		anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
+
+
+
+		//Flipping the player
+		Flip();
+
+
+
+		/*easeMoving ();
+
+
+		moveHorizontal = Input.GetAxis("Horizontal");
 		rb.AddForce ((Vector2.right * speed) * moveHorizontal);
 			//rb.velocity = new Vector2 (moveHorizontal*speed,0);
 
@@ -104,26 +122,10 @@ public class playerController : MonoBehaviour {
 			rb.velocity = new Vector2 (-maxSpeed, rb.velocity.y);
 		}
 
-
-		//Update the moveHorizontal parameter in the animator
-		anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
-
-
-
-		//Flipping the player
-
-			if ((moveHorizontal > 0) && (!facingRight)) {
-
-				Flip ();
-
-			} else if ((moveHorizontal < 0) && (facingRight)) {
-				Flip ();
-			}
-
-
+        */
 		}
 
-	void easeMoving(){
+	/*void easeMoving(){
 		//fake friction velocity
 		Vector3 easeVelocity= rb.velocity; 
 		easeVelocity.y = rb.velocity.y;
@@ -136,6 +138,7 @@ public class playerController : MonoBehaviour {
 		}
 
 	}
+	*/
 
 
 	void crouch()
@@ -188,9 +191,13 @@ public class playerController : MonoBehaviour {
 
 	public void damage(int dmg)
 	{
-		if (currentHealth - dmg < 0 | dmg > currentHealth) {
+
+
+		if (dmg > currentHealth) {
 			currentHealth = 0;
-		} else {
+		}
+		else if(!this.anim.GetCurrentAnimatorStateInfo (0).IsName ("defendStand")){
+			anim.SetTrigger ("hurt");
 			currentHealth -= dmg;
 		}
 
@@ -198,14 +205,17 @@ public class playerController : MonoBehaviour {
 
 
 	void Flip(){
-		facingRight = !facingRight;
-		//anim.SetBool("facing",facingRight);
+		if (moveHorizontal > 0 && !facingRight || moveHorizontal < 0 && facingRight) {
+			facingRight = !facingRight;
+			//anim.SetBool("facing",facingRight);
 
-		Vector3 theScale = transform.localScale;
+			Vector3 theScale = transform.localScale;
 
-		theScale.x *= -1;
+			theScale.x *= -1;
 
-		transform.localScale = theScale;
+			transform.localScale = theScale;
+		}
+
 	}
 
 
@@ -216,8 +226,8 @@ public class playerController : MonoBehaviour {
 			coll2D.size = new Vector2 (0.74f, 0.70f);
 			coll2D.offset = new Vector2 (-0.2f, -0.4f);
 		} else {
-			coll2D.size = new Vector2 (0.74f, 1.45f);
-			coll2D.offset = new Vector2 (-0.2f, 0.0f);
+			coll2D.size = new Vector2 (0.74f, 1.18f);
+			coll2D.offset = new Vector2 (-0.2f, -0.18f);
 		}
 	}
 
