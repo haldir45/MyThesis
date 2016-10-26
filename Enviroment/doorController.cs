@@ -7,6 +7,8 @@ public class doorController : MonoBehaviour {
 	//animation
 	Animator anim;
 
+	public dialogueManager dialogueManagerOBJ;
+
 	//gameManager object
 	private gameManager gm;
 
@@ -23,7 +25,7 @@ public class doorController : MonoBehaviour {
 	{
 		if (col.CompareTag ("Player")) 
 		{
-			gm.footUIT.text = "[E] to Enter";
+			dialogueManagerOBJ.ShowBox("[E] to Enter");
 
 			if(Input.GetKey("e"))
 			{
@@ -37,7 +39,7 @@ public class doorController : MonoBehaviour {
 	{
 		if (col.CompareTag ("Player")) 
 		{
-			gm.footUIT.text = "[E] to Enter";
+			dialogueManagerOBJ.ShowBox("[E] to Enter");
 
 			if(Input.GetKey("e"))
 			{
@@ -51,7 +53,7 @@ public class doorController : MonoBehaviour {
 	{
 		if (col.CompareTag ("Player")) 
 		{
-			gm.footUIT.text = " ";
+			dialogueManagerOBJ.HideBox ();
 		}
 	}
 
@@ -59,7 +61,11 @@ public class doorController : MonoBehaviour {
 	{
 		saveScore ();
 		setttingTheHighScore ();
-		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
+		if(SceneManager.GetActiveScene().name == "Level2")
+			SceneManager.LoadScene("MainMenu");
+		else
+		SceneManager.LoadScene ("Level2");
 	}
 
 	void setttingTheHighScore()

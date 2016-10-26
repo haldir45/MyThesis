@@ -49,6 +49,8 @@ public class enemyBullyController : MonoBehaviour {
 
 		//Update the moveHorizontal parameter in the animator
 		anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
+
+		Debug.Log ("MoveHorizontal:" + Mathf.Abs (rb.velocity.x));
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
@@ -67,9 +69,11 @@ public class enemyBullyController : MonoBehaviour {
 
 			if (startChargeTime < Time.time) {
 				if (!facingRight)
-					rb.AddForce ((Vector2.left * speed));
+					//rb.AddForce ((Vector2.left * speed));
+					rb.velocity = new Vector2 (-speed, rb.velocity.y);
 				else
-					rb.AddForce ((Vector2.right * speed));
+					//rb.AddForce ((Vector2.right * speed));
+					rb.velocity = new Vector2 (speed, rb.velocity.y);
 				anim.SetBool ("sleeping", false);
 				//anim.SetBool ("charging", charging);
 			}

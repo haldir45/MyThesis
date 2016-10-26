@@ -28,8 +28,6 @@ public class enemyAttack : MonoBehaviour
 	{		
 		anim = gameObject.GetComponent<Animator> ();
 
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<playerController> ();
-
 	}
 
 	// Update is called once per frame

@@ -5,14 +5,10 @@ public class enemyAttackTrigger : MonoBehaviour
 {
 
 
-	enemyAttack enemyAttackObj;
-//	enemyBullyHealth enemyBullyHealthObj;
-	//public Collider2D attackTrigger;
+	public enemyAttack enemyAttackObj;
+
 
 	void Start(){
-
-		enemyAttackObj = GameObject.FindGameObjectWithTag ("EnemyBully").GetComponent<enemyAttack> ();
-		//enemyBullyHealthObj = GameObject.FindGameObjectWithTag ("EnemyBully").GetComponent<enemyBullyHealth> ();
 	}
 
 	void Update()

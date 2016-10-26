@@ -8,9 +8,9 @@ public class enemyArcherController : MonoBehaviour {
 	//enemy shooting
 	public float distance;
 	public float wakeRange;
-	public float shootInterval;
-	public float arrowSpeed = 100;
-	public float arrowTimer;
+	//public float shootInterval;
+	public float arrowSpeed;
+	//public float arrowTimer;
 	public GameObject arrow;
 	public Transform shootPoint;
 

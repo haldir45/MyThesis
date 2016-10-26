@@ -95,50 +95,17 @@ public class playerController : MonoBehaviour {
 			
 		//}
 	
-		//Update the moveHorizontal parameter in the animator
-		anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
+
 
 
 
 		//Flipping the player
-		Flip();
+		   Flip(moveHorizontal);
 
-
-
-		/*easeMoving ();
-
-
-		moveHorizontal = Input.GetAxis("Horizontal");
-		rb.AddForce ((Vector2.right * speed) * moveHorizontal);
-			//rb.velocity = new Vector2 (moveHorizontal*speed,0);
-
-
-		//limiting the speed of the player
-		if (rb.velocity.x > maxSpeed) {
-			rb.velocity = new Vector2 (maxSpeed, rb.velocity.y);
+		  //Update the moveHorizontal parameter in the animator
+		  anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
 		}
-
-		if (rb.velocity.x < -maxSpeed) {
-			rb.velocity = new Vector2 (-maxSpeed, rb.velocity.y);
-		}
-
-        */
-		}
-
-	/*void easeMoving(){
-		//fake friction velocity
-		Vector3 easeVelocity= rb.velocity; 
-		easeVelocity.y = rb.velocity.y;
-		easeVelocity.z = 0.0f;
-		easeVelocity.x *= 0.75f;
-
-		//fake friction/Easing the x speed of our player
-		if (grounded) {
-			rb.velocity = easeVelocity;
-		}
-
-	}
-	*/
+		
 
 
 	void crouch()
@@ -204,10 +171,10 @@ public class playerController : MonoBehaviour {
 	}
 
 
-	void Flip(){
-		if (moveHorizontal > 0 && !facingRight || moveHorizontal < 0 && facingRight) {
+	void Flip(float moveHorizontal){
+		
+	     if (moveHorizontal > 0 && !facingRight || moveHorizontal < 0 && facingRight) {
 			facingRight = !facingRight;
-			//anim.SetBool("facing",facingRight);
 
 			Vector3 theScale = transform.localScale;
 
@@ -215,6 +182,17 @@ public class playerController : MonoBehaviour {
 
 			transform.localScale = theScale;
 		}
+		/*
+		if (moveHorizontal > 0 && !facingRight) {
+			transform.eulerAngles = new Vector3 (0, 0,-2*transform.eulerAngles.z);
+			facingRight = true;
+		}
+	
+		if (moveHorizontal < 0 && facingRight) {
+			transform.eulerAngles = new Vector3 (0, 180,-2*transform.eulerAngles.z);
+			facingRight = false;
+		}
+				*/
 
 	}
 
@@ -223,11 +201,13 @@ public class playerController : MonoBehaviour {
 	{
 		if (anim.GetBool ("crouch")) {
 
-			coll2D.size = new Vector2 (0.74f, 0.70f);
-			coll2D.offset = new Vector2 (-0.2f, -0.4f);
+			coll2D.size = new Vector2 (0.74f, 0.93f);
+			coll2D.offset = new Vector2 (-0.2f, 0.1f);
 		} else {
 			coll2D.size = new Vector2 (0.74f, 1.18f);
-			coll2D.offset = new Vector2 (-0.2f, -0.18f);
+			coll2D.offset = new Vector2 (0.1f, 0.24f);
+			//coll2D.size = new Vector2 (0.74f, 1.18f);
+			//coll2D.offset = new Vector2 (-0.2f, -0.18f);
 		}
 	}
 

@@ -3,16 +3,6 @@ using System.Collections;
 
 public class sawTrapController : MonoBehaviour {
 
-	/*
-	public float speed;
-
-	private playerController player;
-
-	bool isLeft = false;
-
-	Rigidbody2D rb;
-
-    */
 
 	//Starting Point of Platform
 	private Vector3 posA;
@@ -34,13 +24,6 @@ public class sawTrapController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		/*
-		rb = GetComponent<Rigidbody2D> ();
-	
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<playerController> ();
-
-        */
-
 		posA = childPlatform.localPosition;
 
 		posB = transformPosB.localPosition;
@@ -52,22 +35,7 @@ public class sawTrapController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		move ();
-		/*
-		//sawMechanism.SetActive (true);
-		if (isLeft) {
-			rb.AddForce ((Vector2.right * speed));
-		} else {
-			rb.AddForce ((Vector2.left * speed));
-		//	Debug.Log("Second Collision Detection");
-		}
 
-		Vector3 easeVelocity= rb.velocity; 
-		easeVelocity.y = rb.velocity.y;
-		easeVelocity.z = 0.0f;
-		easeVelocity.x *= 0.95f;
-
-		rb.velocity = easeVelocity;
-		*/
 	}
 	private void move()
 	{
@@ -83,42 +51,5 @@ public class sawTrapController : MonoBehaviour {
 		nextPos = nextPos != posA ? posA : posB;
 	}
 
-	/*
-	void OnTriggerEnter2D(Collider2D col)
-	{
-		
 
-		if(col.CompareTag("LeftSliderMechanism"))
-		{
-	
-				isLeft = true;
-		}
-
-		if (col.CompareTag ("RightSliderMechanism")) {
-			
-			isLeft = false;
-		}
-
-		if(col.CompareTag("Player") )
-		{
-			player.damage (2);
-		
-
-		
-		}
-
-	}
-
-	void OnTriggerExit2D(Collider2D col)
-	{
-		if(col.CompareTag("Player") )
-		{
-
-			player.damage (2);
-
-
-		}
-	}
-
-	*/
 }

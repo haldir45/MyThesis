@@ -16,6 +16,7 @@ public class playerJumping : MonoBehaviour
 
 	public float jumpForce;
 	private bool canDoubleJump;
+	private bool jumpKeyPressed;
 
 	// Use this for initialization
 	void Start ()
@@ -36,39 +37,46 @@ public class playerJumping : MonoBehaviour
 		anim.SetBool("grounded",grounded);
 
 		checkGrounded ();
+		checkIfJumpKeyPressed ();
 	
 	}
 
 	void FixedUpdate()
 	{
+
 		jump ();
+		resetValues();
 	}
 
+	void checkIfJumpKeyPressed (){
+		if (Input.GetButtonDown ("Jump") && ((!anim.GetCurrentAnimatorStateInfo (0).IsTag ("attack")) & (!anim.GetCurrentAnimatorStateInfo (0).IsName ("hurt")) & (!anim.GetCurrentAnimatorStateInfo (0).IsName ("dead")))) {
+			jumpKeyPressed = true;
+			anim.SetBool ("jumping", true);
+		}
+	}
+	void resetValues (){
+		jumpKeyPressed = false;
+	}
 	void jump()
 	{
+		//If the player is on the ground,jump and set true canDoubleJump variable
+		if (grounded & jumpKeyPressed) { 
+			//rb.AddForce (Vector2.up * jumpForce);
+			rb.AddForce(new Vector2(0,jumpForce));
+			canDoubleJump = true;
+			anim.SetBool ("crouch", false);//Stops the crouch animation
 
-		if(Input.GetButtonDown("Jump") && ( (!anim.GetCurrentAnimatorStateInfo(0).IsTag("attack")) & (!anim.GetCurrentAnimatorStateInfo(0).IsName("hurt")) ) )
-		{
-			anim.SetBool ("jumping", true);
+		} else if(jumpKeyPressed)
+		{//If not the player is on the ground and the canDoubleJump variable is true the player can jump twice 
+			if (canDoubleJump) 
+			{
+				canDoubleJump = false;
+				rb.velocity = new Vector2 (rb.velocity.x, 0);
+				rb.AddForce(new Vector2(0,jumpForce));
 
-			//If the player is on the ground,jump and set true canDoubleJump variable
-			if (grounded) { //&& !( anim.GetBool("crouch") )
-				rb.AddForce (Vector2.up * jumpForce);
-				canDoubleJump = true;
-				anim.SetBool ("crouch", false);
-
-			} else 
-			{//If not the player is on the ground and the canDoubleJump variable is true the player can jump twice 
-				if (canDoubleJump) 
-				{
-					canDoubleJump = false;
-					rb.velocity = new Vector2 (rb.velocity.x, 0);
-					rb.AddForce(Vector2.up * (jumpForce));
-
-				}
 			}
-
 		}
+
 
 	}
 

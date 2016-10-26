@@ -11,13 +11,12 @@ public class hud : MonoBehaviour {
 	public Image heartUI;
 
 	//object of playerController
-	private playerController player;
+	public playerController player;
 
 
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerController> ();
 
 	
 	}

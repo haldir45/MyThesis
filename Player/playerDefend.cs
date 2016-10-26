@@ -18,14 +18,6 @@ public class playerDefend : MonoBehaviour {
 	}
 
 
-	void FixedUpdate()
-	{
-		//defend ();
-		//resetValues ();
-	}
-
-
-
 	void defend1()
 	{
 		if (Input.GetKeyDown ("c")) {
@@ -41,6 +33,13 @@ public class playerDefend : MonoBehaviour {
 		} 
 
 	}
+
+	void FixedUpdate()
+	{
+		//defend ();
+		//resetValues ();
+	}
+
 
 	void resetValues(){
 		defending = false;

@@ -2,15 +2,12 @@
 using System.Collections;
 
 public class sawCollisionDetection: MonoBehaviour
-{
-	private playerController player;
+{   
+	 public playerController player;
 
 	// Use this for initialization
 	void Start () {
 
-
-	
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<playerController> ();
 
 
 	}

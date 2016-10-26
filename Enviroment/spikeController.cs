@@ -2,11 +2,10 @@
 using System.Collections;
 
 public class spikeController : MonoBehaviour {
-	private playerController player;
+	public playerController player;
 
 	void Start()
 	{
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<playerController> ();
 	}
 
 	void OnTriggerEnter2D(Collider2D col)

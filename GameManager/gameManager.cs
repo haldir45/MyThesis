@@ -14,15 +14,15 @@ public class gameManager : MonoBehaviour
 	void Start ()
 	{
 		if (PlayerPrefs.HasKey ("Score")) 
-		{
-			if (SceneManager.GetActiveScene ().name.Equals("Level1")) 
-			{
+		{//
+			//if (SceneManager.GetActiveScene ().name.Equals("Level1")) 
+		//	{
 				PlayerPrefs.DeleteKey ("Score");
 				diamonds = 0;
-			} else
-			{
-				diamonds = PlayerPrefs.GetInt ("Score");
-			}
+		//	} else
+		//	{
+			//	diamonds = PlayerPrefs.GetInt ("Score");
+			//}
 		}
 
 		if (PlayerPrefs.HasKey ("HighScore")) {

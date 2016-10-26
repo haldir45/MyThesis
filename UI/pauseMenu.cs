@@ -40,9 +40,11 @@ public class pauseMenu : MonoBehaviour {
 	}
 
 	public void mainMenu(){
-		//Right now i dont have a main menu,So load again the active scene
 		//SceneManager.LoadScene ("Main Menu");
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		Time.timeScale = 1;
+		SceneManager.LoadScene("MainMenu");
+	
+
 	}
 		
 	public void Quit(){

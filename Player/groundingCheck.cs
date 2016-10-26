@@ -16,14 +16,26 @@ public class groundingCheck : MonoBehaviour {
 	//Setting true the grounded parameter if the player touches the ground
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		player.grounded = true;
-		jumpingObj.grounded = true;
+		if (col.CompareTag ("EnemyArcher") || col.CompareTag ("EnemyBully"))
+			return;
+		else{
+			
+			player.grounded = true;
+			jumpingObj.grounded = true;
+		}
+
 	}
 		
 	void OnTriggerStay2D(Collider2D col)
 	{
-		player.grounded = true;
-		jumpingObj.grounded = true;
+		
+			if (col.CompareTag ("EnemyArcher") || col.CompareTag ("EnemyBully"))
+				return;
+			else{
+			
+				player.grounded = true;
+				jumpingObj.grounded = true;
+			}
 	}
 	void OnTriggerExit2D(Collider2D col)
 	{
