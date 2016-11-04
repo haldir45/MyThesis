@@ -3,6 +3,7 @@ using System.Collections;
 
 public class spikeController : MonoBehaviour {
 	public playerController player;
+    public enemyBullyHealth enemy;
 
 	void Start()
 	{
@@ -18,5 +19,12 @@ public class spikeController : MonoBehaviour {
 
 	
 		}
+        if (col.CompareTag("EnemyBody"))
+        {
+            enemy.GetComponent<BoxCollider2D> ().isTrigger = false;
+            enemy.GetComponent<Animator>().SetBool("dead", true);
+            gameObject.GetComponent<Collider2D> ().isTrigger = false;
+        }
+            
 	}
 }

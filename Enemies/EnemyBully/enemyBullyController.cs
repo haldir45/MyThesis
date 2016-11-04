@@ -50,7 +50,7 @@ public class enemyBullyController : MonoBehaviour {
 		//Update the moveHorizontal parameter in the animator
 		anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
 
-		Debug.Log ("MoveHorizontal:" + Mathf.Abs (rb.velocity.x));
+		
 	}
 
 	void OnTriggerEnter2D(Collider2D col){

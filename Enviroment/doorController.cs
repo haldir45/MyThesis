@@ -7,6 +7,8 @@ public class doorController : MonoBehaviour {
 	//animation
 	Animator anim;
 
+
+
 	public dialogueManager dialogueManagerOBJ;
 
 	//gameManager object
@@ -62,10 +64,16 @@ public class doorController : MonoBehaviour {
 		saveScore ();
 		setttingTheHighScore ();
 
-		if(SceneManager.GetActiveScene().name == "Level2")
+        string name = SceneManager.GetActiveScene().name;
+        string i = name.Substring(5);
+
+
+		if(SceneManager.GetActiveScene().name == "Level3")
 			SceneManager.LoadScene("MainMenu");
 		else
-		SceneManager.LoadScene ("Level2");
+            SceneManager.LoadScene ("Level" + (int.Parse(i)+1));
+     
+       
 	}
 
 	void setttingTheHighScore()
