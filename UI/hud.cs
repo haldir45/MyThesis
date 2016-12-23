@@ -4,29 +4,19 @@ using UnityEngine.UI;
 
 public class hud : MonoBehaviour {
 
-	//the array of hearts images
+
 	public Sprite[] heartSprites;
 
-	//heart image
 	public Image heartUI;
 
-	//object of playerController
+	//Reference to player game object's script component
 	public playerController player;
 
-
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	
 	// Update is called once per frame
 	void Update () {
-	
 
-            heartUI.sprite = heartSprites[player.currentHealth];
-    
-            
+      //Updating the heart Sprite
+      heartUI.sprite = heartSprites[player.currentHealth];
 
 	}
 

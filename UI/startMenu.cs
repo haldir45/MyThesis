@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class startMenu : MonoBehaviour {
 
  
-
+    //Reference to mainMenu and dropDown List
     public Dropdown sceneDropDown;
     public GameObject mainMenuGameObject;
 
+
+    //List with all the level names
     List<string> levelNames = new List<string>(){"Select a Level ","Level1","Level2","Level3",
         "Level4","Level5","Level6","Level7","Level8"};
 
@@ -21,7 +23,7 @@ public class startMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        
         fillDropDown();
 	}
 	
@@ -30,30 +32,30 @@ public class startMenu : MonoBehaviour {
 	
 	}
         
+    //Fill the dropDown with the level names
     void fillDropDown(){
         sceneDropDown.AddOptions(levelNames);
     }
    
+    //When the value is changed store the index 
     public void dropDownOnValueChanged(int index){
 
         selectedSceneName = levelNames[index];
         indexDropDown = index;
     }
 
+    //Start the selected scene from the dropDown
     public void startScene(){
 
+        if (indexDropDown != 0){
 
-        if (indexDropDown != 0)
-        {
-           // backgroundMusicController.audioBegin = false;
-           //backgroundMusicObject.GetComponent<backgroundMusicController>().audioBegin = false;
-         //   Destroy(backgroundMusicObject);
             SceneManager.LoadScene(selectedSceneName);
         }
 
-
     }
 
+
+    //Back to Main Menu
     public  void goBackToMainMenu(){
         mainMenuGameObject.SetActive(true);
         gameObject.SetActive(false);

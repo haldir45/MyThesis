@@ -3,6 +3,15 @@ using System.Collections;
 
 public class movingPlatformController : MonoBehaviour {
 
+    public float speed;
+
+    //The childPlatform transform
+    public Transform childPlatform;
+
+    //PositionB trasform
+    public Transform transformPosB;
+
+
 	//Starting Point of Platform
 	private Vector3 posA;
 
@@ -12,21 +21,15 @@ public class movingPlatformController : MonoBehaviour {
 	//the next position the platform will move
 	private Vector3 nextPos;
 
-	public float speed;
 
-	//The childPlatform transform
-	public Transform childPlatform;
-
-	//PositionB trasform
-	public Transform transformPosB;
 	// Use this for initialization
 	void Start () {
 
-	
+        //Initializing the nextPos,posA,posB
 		posA = childPlatform.localPosition;
 
 		posB = transformPosB.localPosition;
-		//Initializing the nextPos
+		
 		nextPos = posB;
 	}
 	
@@ -35,17 +38,19 @@ public class movingPlatformController : MonoBehaviour {
 		move ();
 	}
 
-	private void move()
-	{
+	private void move(){
+
+        //Moving the platform to next position
 		childPlatform.localPosition = Vector3.MoveTowards (childPlatform.localPosition, nextPos, speed * Time.deltaTime);
 
+        //When the platform reach the nextPos it changes destination
 		if (Vector3.Distance (childPlatform.localPosition, nextPos) <= 0.1)
 			changeDistantion ();
 
 	}
 
-	private void changeDistantion()
-	{
+    //Changing the nextPos 
+	private void changeDistantion(){
 		nextPos = nextPos != posA ? posA : posB;
 	}
 }

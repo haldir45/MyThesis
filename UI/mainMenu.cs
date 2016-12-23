@@ -3,53 +3,55 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 public class mainMenu : MonoBehaviour {
 
-
+    //Reference to startMenu,optionsMenu,scoreMenu game objects
     public GameObject startMenuGameObject;
     public GameObject optionsMenuGameObject;
     public GameObject scoreMenuGameObject;
 
-    public AudioSource buttonClickSound;
+
+    //Reference to buttonClickSound game object's AudioSource component
+    public AudioSource buttonClickSoundEffect;
 
 
 	void Start(){
+        //Unpause Game
 		Time.timeScale = 1;
-   
-
 	}
-	public void startMenu(){
-	
 
+    //Open startMenu
+	public void startMenu(){
         startMenuGameObject.SetActive(true);
         gameObject.SetActive(false);
 
 	}
 
+    //Open optionsMenu
     public void optionsMenu(){
-
+     
         optionsMenuGameObject.SetActive(true);
         gameObject.SetActive(false);
 
     }
 
+    //Open scoreMenu
     public void scoreMenu(){
-
         scoreMenuGameObject.SetActive(true);
         gameObject.SetActive(false);
 
-
     }
-    public void Quit(){
 
+    //Close game
+    public void Quit(){
+      
         StartCoroutine(closeTheGame());
 
     }
 
+    //The game closes after the buttonClickSoundeffect will end
     IEnumerator closeTheGame(){
-        buttonClickSound.Play();
- 
 
-        yield return new WaitForSeconds(buttonClickSound.clip.length);
-
+        buttonClickSoundEffect.Play();
+        yield return new WaitForSeconds(buttonClickSoundEffect.clip.length);
         Application.Quit ();
     }
 
