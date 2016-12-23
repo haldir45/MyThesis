@@ -9,6 +9,8 @@ public class playerAttack : MonoBehaviour
 	public bool attacking = false;
 	public Collider2D attackTrigger;
 
+    public AudioSource attackSoundEffect;
+
 
 	private Animator anim;
 
@@ -31,7 +33,7 @@ public class playerAttack : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if(anim.GetFloat("moveHorizontal") <0.1 & !anim.GetBool("jumping"))
+        if(anim.GetFloat("moveHorizontal") <0.1 & !anim.GetBool("jumping"))// & !anim.GetBool("OnTopOfAnEnemy")
 		   checkAttackingKey ();
 
 	}
@@ -56,8 +58,10 @@ public class playerAttack : MonoBehaviour
 	{
 		//attack
 		if (attacking && (!this.anim.GetCurrentAnimatorStateInfo (0).IsTag ("attack"))) {
+         
 			anim.SetTrigger ("attack");
 			attackTrigger.enabled = true;
+            attackSoundEffect.Play();
 
 		} else {
 			attackTrigger.enabled = false;

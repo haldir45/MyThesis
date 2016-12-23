@@ -3,15 +3,27 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 public class pauseMenu : MonoBehaviour {
 
+   
 
-	public GameObject PauseUI;
+	public GameObject pauseUI;
+
+    public GameObject pauseObject;
+
+    public GameObject  optionsObject;
+
+    public AudioSource backgroundMusic;
 
 	private bool paused = false;
 
 
+
+    public AudioSource buttonClickSound;
+
+
 	// Use this for initialization
 	void Start () {
-		PauseUI.SetActive(false);
+ 
+		pauseUI.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -19,37 +31,88 @@ public class pauseMenu : MonoBehaviour {
 	
 		if (Input.GetButtonDown ("Pause")) {
 			paused = !paused;
+
+            pauseObject.SetActive(true);
+            optionsObject.SetActive(false);
+
 		}
 
 		if (paused) {
-			PauseUI.SetActive (true);
+			pauseUI.SetActive (true);
+            backgroundMusic.Pause();
 			Time.timeScale = 0;
 		} else {
-			PauseUI.SetActive (false);
+			pauseUI.SetActive (false);
 			Time.timeScale = 1;
+            backgroundMusic.UnPause();
+       
 		}
 	}
 
 	public void Resume(){
+
 		paused = false;
 
 	}
 
 	public void Restart(){
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-	}
-
-	public void mainMenu(){
-		//SceneManager.LoadScene ("Main Menu");
-		Time.timeScale = 1;
-		SceneManager.LoadScene("MainMenu");
-	
+      
+        StartCoroutine(reloadLevel());
 
 	}
+
+    IEnumerator reloadLevel(){
+        buttonClickSound.Play();
+        paused = false;
+        yield return new WaitForSeconds(buttonClickSound.clip.length);
+       
+
+       SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
+
+    public void mainMenu(){
+
+        StartCoroutine(loadMainMenu());
+
+
+
+
+    }
+
+    IEnumerator loadMainMenu(){
+        buttonClickSound.Play();
+        paused = false;
+
+        yield return new WaitForSeconds(buttonClickSound.clip.length);
+
+        SceneManager.LoadScene("MainMenu");
+
+    }
+        
+    public void Options(){
+
+
+        pauseObject.SetActive(false);
+        optionsObject.SetActive(true);
+        
+    }
+
 		
 	public void Quit(){
-		Application.Quit ();
+
+        StartCoroutine(closeTheGame());
+		
 	}
+
+    IEnumerator closeTheGame(){
+        buttonClickSound.Play();
+        paused = false;
+
+        yield return new WaitForSeconds(buttonClickSound.clip.length);
+
+        Application.Quit ();
+    }
 
 
 }

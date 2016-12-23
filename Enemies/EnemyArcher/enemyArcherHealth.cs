@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class enemyArcherHealth : MonoBehaviour
 {
 	public float maxHealth;
+    public GameObject healthObj;
+
+    public AudioSource goblinDeathSound;
 
 	float currentHealth;
 
@@ -35,8 +38,9 @@ public class enemyArcherHealth : MonoBehaviour
 
 	public void addDamage(float damage){
 		currentHealth -= damage;
-		if (currentHealth <= 0) 
+		if (currentHealth == 0) 
 		{
+            goblinDeathSound.Play();
 			gameObject.GetComponent<Collider2D> ().enabled=false;
 			StartCoroutine (deathAnimationTimer ());
 
@@ -51,11 +55,22 @@ public class enemyArcherHealth : MonoBehaviour
 
 	void die()
 	{
-		Destroy (gameObject);
-		//Destroy (gameObject.GetComponent<enemyBullyController> ());
+        spawnDiamonds();
+        Destroy (gameObject);
+        //Destroy (gameObject.GetComponent<enemyBullyController> ());
 		gm.diamonds += 1;
 		//SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
+
+    void spawnDiamonds(){
+        float randomNumber = Random.Range(0.0f, 100.0f);
+        if (randomNumber < 30.0f)
+        {
+            Instantiate(healthObj, transform.position, transform.rotation);
+
+        }
+    }
+
 }
 
 

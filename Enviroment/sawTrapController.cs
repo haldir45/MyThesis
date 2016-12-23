@@ -21,6 +21,9 @@ public class sawTrapController : MonoBehaviour {
 	//PositionB trasform
 	public Transform transformPosB;
 
+
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -30,17 +33,25 @@ public class sawTrapController : MonoBehaviour {
 		//Initializing the nextPos
 		nextPos = posB;
 
+
+
+     
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		move ();
 
+  
+  
+
+
 	}
 	private void move()
 	{
 		childPlatform.localPosition = Vector3.MoveTowards (childPlatform.localPosition, nextPos, speed * Time.deltaTime);
-
+   
 		if (Vector3.Distance (childPlatform.localPosition, nextPos) <= 0.1)
 			changeDistantion ();
 

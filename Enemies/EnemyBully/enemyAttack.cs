@@ -18,6 +18,8 @@ public class enemyAttack : MonoBehaviour
 
 	public playerController player;
 
+    public AudioSource enemyAttackSound;
+
 	void awake()
 	{
 
@@ -35,13 +37,19 @@ public class enemyAttack : MonoBehaviour
 	{
 
 	//	Debug.Log ("canattack" + canAttack + ", startCD:" + startCD);
-		if (canAttack & anim.GetBool("collideWithObj"))
-			anim.SetBool ("attacking", true);
+        if (canAttack & anim.GetBool("collideWithObj") & !anim.GetBool("dead")) 
+            anim.SetBool ("attacking", true);
+          
+       
+			
 
 		if (startCD) {
 			anim.SetBool ("attacking", false);
 			attack ();
 		}
+
+        if (anim.GetBool("dead"))
+            anim.Play("dead");
 
 	}
 
@@ -62,11 +70,15 @@ public class enemyAttack : MonoBehaviour
 
 	public void doDamage(){
 		
-		player.damage(1);
+		player.damage(2);
 		canAttack = false;
 		startCD = true;
 
 	
 	}
+
+    public void playEnemyAttackSound(){
+        enemyAttackSound.Play();
+    }
 }
 

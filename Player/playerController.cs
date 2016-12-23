@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour {
 
+    public AudioSource playerDeathSound;
+    public AudioSource diamondCollectSound;
+    public AudioSource playerWalkSound;
+    public AudioSource playerDefendSound;
+  
+    public AudioSource playerHurtSound;
+
 		//Physics
 		private Rigidbody2D rb;
 
@@ -21,7 +28,7 @@ public class playerController : MonoBehaviour {
     	public float maxSpeed;
 
 		//facing
-		private bool facingRight = true;
+		public bool facingRight;
 
 	    //grounded
 	    public bool grounded; 
@@ -33,11 +40,18 @@ public class playerController : MonoBehaviour {
 
 	    //Player Life
 	public int currentHealth;
-	public int maxHealth ;
+    public int maxHealth;
 	public bool dead;
 
 	//game master
 	private gameManager gm;
+
+    public bool hasKey;
+    //backgroundMusic
+    private GameObject backgroundMusicObject;
+
+    private bool pressed = false;
+
 
 
 
@@ -55,12 +69,22 @@ public class playerController : MonoBehaviour {
 		   //reference to gameManager class
 		gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameManager>();
 
+
+
 		    //Setting the currentHealth to maxHealth every time the player starts the game
-	    	currentHealth = maxHealth;
+
+            currentHealth = maxHealth;
+        backgroundMusicObject = GameObject.FindGameObjectWithTag("Music");
+        
+     
+
+
+     //   gameObject.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 0.8f);
+     
 		}
 
 		// Update is called once per frame
-	void Update () {
+	   void Update () {
 		   //grounded update
 		   anim.SetBool("grounded",grounded);
 
@@ -71,6 +95,7 @@ public class playerController : MonoBehaviour {
 
 		    if (currentHealth > maxHealth) {
 		    	currentHealth = maxHealth;
+         
 
 		    }
 
@@ -80,24 +105,19 @@ public class playerController : MonoBehaviour {
 			   anim.SetBool ("dead", dead);
             }
 
+        playerWalkSoundController();
+
+     
 		}
 		//physics only in FixedUpdate
-		void FixedUpdate()
-     	{
+		void FixedUpdate(){
 
-		moveHorizontal = Input.GetAxis("Horizontal");
+           moveHorizontal = Input.GetAxis("Horizontal");
 
-		if ((this.anim.GetCurrentAnimatorStateInfo (0).IsTag ("attack")) || (this.anim.GetCurrentAnimatorStateInfo (0).IsTag ("dead")) || (this.anim.GetCurrentAnimatorStateInfo (0).IsName("hurt")))
-			rb.velocity = new Vector2(0.0f,rb.velocity.y);
-		else {
-			rb.velocity = new Vector2 (moveHorizontal * speed, rb.velocity.y);
-		}
-			
-		//}
-	
-
-
-
+        if ((this.anim.GetCurrentAnimatorStateInfo(0).IsTag("attack")) || (this.anim.GetCurrentAnimatorStateInfo(0).IsTag("dead")) || (this.anim.GetCurrentAnimatorStateInfo(0).IsName("hurt")))
+            rb.velocity = new Vector2(0.0f, rb.velocity.y);
+        else
+            rb.velocity = new Vector2(moveHorizontal * speed, rb.velocity.y);
 
 		//Flipping the player
 		   Flip(moveHorizontal);
@@ -106,6 +126,43 @@ public class playerController : MonoBehaviour {
 		  anim.SetFloat ("moveHorizontal", Mathf.Abs (rb.velocity.x));
 		}
 		
+
+    public void playerWalkSoundController(){
+
+       
+        /*
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+           playerWalkSound.Stop();
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) & grounded)
+          playerWalkSound.Play();
+          */
+        
+        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) 
+          || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) & grounded & (!pressed)){
+            pressed = true;
+            playerWalkSound.Play();
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)
+            || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
+            pressed = false;
+            playerWalkSound.Stop();
+
+        }
+
+         
+        /*
+        if (anim.GetFloat("moveHorizontal") > 0.1f)
+        {
+            Debug.Log(anim.GetFloat("moveHorizontal"));
+            playerWalkSound.Play();
+        }
+          
+        else
+            playerWalkSound.Stop();
+             */
+
+    }
+
 
 
 	void crouch()
@@ -127,31 +184,62 @@ public class playerController : MonoBehaviour {
 	void die()
 	{
 		
+       // playerDeath.Play();
 		setttingTheHighScore ();
-		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
+
+        StartCoroutine(restartTheScene());
+
+
+
+		
 	}
+
+    IEnumerator restartTheScene(){
+        backgroundMusicObject.GetComponent<AudioSource>().Stop();
+
+
+        playerDeathSound.Play();
+
+        yield return new WaitForSeconds(playerDeathSound.clip.length);
+
+        SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
+    }
 
 
 
 	void setttingTheHighScore()
 	{
 		if (PlayerPrefs.HasKey ("HighScore")) {
-			if (PlayerPrefs.GetInt ("HighScore") < gm.diamonds) {
+			if (PlayerPrefs.GetInt ("HighScore") < gm.diamonds) 
 				PlayerPrefs.SetInt ("HighScore", gm.diamonds);
-			}
-		} else {
+			
+		} else 
 			PlayerPrefs.SetInt ("HighScore", gm.diamonds);
-		}
+		
 	}
+
+
+
 
 
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.CompareTag ("Diamonds")) {
-			Destroy (col.gameObject);
-			gm.diamonds +=1;
+            diamondCollectSound.Play();
+            Destroy (col.gameObject);
+            gm.addDiamonds();
 		}
+
+        if (col.CompareTag("Key"))
+        {
+            diamondCollectSound.Play();
+            hasKey = true;
+            Destroy(col.gameObject);
+            gm.keys += 1;
+        }
 			
 
 	}
@@ -160,28 +248,37 @@ public class playerController : MonoBehaviour {
 	{
 
 
-		if (dmg > currentHealth) {
-			currentHealth = 0;
-		}
-		else if(!this.anim.GetCurrentAnimatorStateInfo (0).IsName ("defendStand")){
-			anim.SetTrigger ("hurt");
-			currentHealth -= dmg;
-		}
+   
+        if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("defendStand"))
+        {
+            playerHurtSound.Play();
+            anim.SetTrigger("hurt");
+            if (dmg > currentHealth)
+
+                currentHealth = 0;
+            else
+            currentHealth -= dmg;
+        }
+        else
+            playerDefendSound.Play();
 
 	}
 
 
 	void Flip(float moveHorizontal){
 		
-	     if (moveHorizontal > 0 && !facingRight || moveHorizontal < 0 && facingRight) {
-			facingRight = !facingRight;
+        if (moveHorizontal > 0 && !facingRight || moveHorizontal < 0 && facingRight)
+        {
+            
+            facingRight = !facingRight;
 
-			Vector3 theScale = transform.localScale;
+            Vector3 theScale = transform.localScale;
 
-			theScale.x *= -1;
+            theScale.x *= -1;
 
-			transform.localScale = theScale;
-		}
+            transform.localScale = theScale;
+        }
+     
 		/*
 		if (moveHorizontal > 0 && !facingRight) {
 			transform.eulerAngles = new Vector3 (0, 0,-2*transform.eulerAngles.z);
@@ -210,6 +307,12 @@ public class playerController : MonoBehaviour {
 			//coll2D.offset = new Vector2 (-0.2f, -0.18f);
 		}
 	}
+
+    public void addHealth(){
+     
+        if(currentHealth != maxHealth)
+        currentHealth += 1;
+    }
 
 	void OnCollisionEnter2D(Collision2D col)
 	{

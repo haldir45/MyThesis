@@ -6,8 +6,11 @@ using UnityEngine.SceneManagement;
 public class enemyBullyHealth : MonoBehaviour
 {
 	public float maxHealth;
+    public GameObject healthObj;
+	public float currentHealth;
 
-	float currentHealth;
+    public AudioSource bullyDeathSound;
+    public AudioSource bullyHurtSound;
 
 	//enemy animator
      Animator anim;
@@ -35,12 +38,17 @@ public class enemyBullyHealth : MonoBehaviour
 
 	public void addDamage(float damage){
 		currentHealth -= damage;
-		if (currentHealth <= 0) 
-		{
-			gameObject.GetComponent<Collider2D> ().enabled=false;
-			StartCoroutine (deathAnimationTimer ());
+        if (currentHealth == 0)
+        {
+            bullyDeathSound.Play();
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            StartCoroutine(deathAnimationTimer());
 
-		}
+
+        }
+        if(currentHealth >0){
+            bullyHurtSound.Play();
+        }
 	}
 
 	IEnumerator deathAnimationTimer()
@@ -51,10 +59,24 @@ public class enemyBullyHealth : MonoBehaviour
 
 	void die()
 	{
-		Destroy (this.transform.parent.gameObject);
-		//Destroy (gameObject.GetComponent<enemyBullyController> ());
+       
+        spawnDiamonds();
+        Destroy (this.transform.parent.gameObject);
+  
 		gm.diamonds += 1;
-		//SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
 	}
+
+    void spawnDiamonds(){
+        float randomNumber = Random.Range(0.0f,100.0f);
+
+        if (randomNumber < 35.0f)
+        {
+            Instantiate(healthObj, transform.position, transform.rotation);
+
+        }
+      
+    
+    }
 }
 

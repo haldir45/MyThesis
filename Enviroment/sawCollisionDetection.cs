@@ -3,35 +3,22 @@ using System.Collections;
 
 public class sawCollisionDetection: MonoBehaviour
 {   
-	 public playerController player;
-    public enemyBullyHealth enemy;
-
-	// Use this for initialization
-	void Start () {
 
 
 
-	}
-	void OnTriggerEnter2D(Collider2D col)
-	{
+	void OnTriggerEnter2D(Collider2D col){
+        //Do 2 damage to player
 		if(col.CompareTag("Player") )
-			player.damage (2);
+            col.GetComponent<playerController>().damage(2);
 		
-
-		
-	
-   
+        //Kill Enemy bully
         if (col.CompareTag("EnemyBody"))
-            enemy.GetComponent<Animator>().SetBool("dead", true);
-        
-        
-
+            col.GetComponent<Animator>().SetBool("dead", true);
+     
 	}
 
 
 		
-
-
 
 }
 

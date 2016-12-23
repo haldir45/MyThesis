@@ -8,6 +8,8 @@ public class playerJumping : MonoBehaviour
 	//grounded
 	public bool grounded; 
 
+    public AudioSource playerJump;
+
 	//Physics
 	private Rigidbody2D rb;
 
@@ -51,6 +53,7 @@ public class playerJumping : MonoBehaviour
 	void checkIfJumpKeyPressed (){
 		if (Input.GetButtonDown ("Jump") && ((!anim.GetCurrentAnimatorStateInfo (0).IsTag ("attack")) & (!anim.GetCurrentAnimatorStateInfo (0).IsName ("hurt")) & (!anim.GetCurrentAnimatorStateInfo (0).IsName ("dead")))) {
 			jumpKeyPressed = true;
+            playerJump.Play();
 			anim.SetBool ("jumping", true);
 		}
 	}

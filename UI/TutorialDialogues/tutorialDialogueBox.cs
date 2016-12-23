@@ -15,15 +15,20 @@ public class tutorialDialogueBox : MonoBehaviour {
 		if (other.CompareTag ("Player")) {
 			
 			dialogueManagerOBJ.ShowBox (dialogue);
+            StartCoroutine(closeShowBox());
 		}
 	}
 
-	void OnTriggerExit2D(Collider2D other){
-		if (other.CompareTag ("Player")) {
+    IEnumerator closeShowBox(){
 
-			dialogueManagerOBJ.HideBox();
-		}
-	}
+        yield return new WaitForSeconds(3);
+        dialogueManagerOBJ.HideBox();
+        Destroy(gameObject);
+
+
+    }
+
+	
 
 
 }

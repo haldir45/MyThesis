@@ -24,6 +24,9 @@ public class enemyArcherController : MonoBehaviour {
 	//enemy animator
 	public Animator anim;
 
+    public AudioSource enemyArrowShootSound;
+
+
 
 
 	// Use this for initialization
@@ -82,6 +85,8 @@ public class enemyArcherController : MonoBehaviour {
 			if ( (!player.GetComponent<playerController>().dead) && (!anim.GetBool("dead"))) {
 			//arrowTimer >= shootInterval &&
 			//arrowTimer += Time.deltaTime;
+
+            enemyArrowShootSound.Play();
 
 			Vector2 direction = target.transform.position - transform.position;
 			direction.Normalize ();
